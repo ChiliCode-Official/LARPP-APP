@@ -1,0 +1,17 @@
+{
+  "name": "LARPP APP",
+  "short_name": "LARPP",
+  "description": "Gestor de capital avanzado.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#ffb800",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

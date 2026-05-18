@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>LARPP APP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#141414">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- SEO & Compartir (Social Media Preview) -->
+    <meta property="og:title" content="LARPP APP">
+    <meta property="og:description" content="Gestor de capital avanzado.">
+    <meta property="og:image" content="icon.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="icon.png">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KX4WZ9S2SL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-KX4WZ9S2SL');
+    </script>
+</head>
+<body>
+    <!-- Promo Banner (Only Web) -->
+    <div id="promo-banner" class="promo-banner">
+        <video class="promo-video" autoplay loop muted playsinline>
+            <source src="https://i.imgur.com/agtwBuA.mp4" type="video/mp4">
+        </video>
+        <div class="promo-content">
+            <h2 style="margin:0; font-size:26px; font-weight:700;">Cumple tus Sueños</h2>
+            <button id="promo-install-btn" style="background:white; color:black; border:none; padding:12px 24px; border-radius:18px; font-weight:700; margin-top:16px;">Instalar App</button>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-left">
+            <h1>LARPP APP</h1>
+            <a href="https://chilicode-official.github.io/ChiliCode/index.html" target="_blank" class="dev-link">
+                <span>By ChiliCode</span>
+                <img src="https://i.imgur.com/wDWocKd.png" class="bottle-logo-mini" alt="CC">
+            </a>
+        </div>
+        <div class="header-right">
+            <button id="header-install-btn" class="install-pill" style="display:none;">Instalar</button>
+            <button id="theme-toggle" style="font-size:24px;">🌓</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Dashboard -->
+        <div id="view-dashboard" class="view active">
+            <section id="status-card" class="tip-card">
+                <div id="tip-content">Ten un objetivo para seguir viviendo... 🐷</div>
+            </section>
+            <h2 id="goals-title">Mis Metas</h2>
+            <div id="goals-list"></div>
+        </div>
+
+        <!-- Calendario -->
+        <div id="view-history" class="view">
+            <div class="calendar-container">
+                <div class="calendar-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <button id="prev-month">←</button>
+                    <h3 id="calendar-month" style="margin:0;">Mes Año</h3>
+                    <button id="next-month">→</button>
+                </div>
+                <div id="calendar-grid" class="calendar-grid"></div>
+            </div>
+            <!-- Modal para detalles del día -->
+            <div id="day-history-modal" class="modal-overlay">
+                <div class="modal">
+                    <h3 id="history-date-label">Detalles</h3>
+                    <div id="day-history-list" style="max-height:300px; overflow-y:auto;"></div>
+                    <button onclick="closeModals()" class="btn-filled" style="background:var(--md-sys-color-surface-variant); color:var(--md-sys-color-on-background); margin-top:20px;">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Detalle de Meta -->
+    <div id="goal-detail" class="detail-view">
+        <div style="padding: 24px;">
+            <header style="padding:0; margin-bottom:24px;">
+                <button id="close-detail" style="background:var(--md-sys-color-surface-variant); padding:12px 20px; border-radius:16px; font-weight:700;">← Volver</button>
+                <button id="delete-goal-btn" style="color:var(--md-sys-color-error); font-size:12px; font-weight:700; opacity:0.6;">Eliminar Sueño 🗑️</button>
+            </header>
+            <img id="detail-img" src="" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:32px; margin-bottom:24px;">
+            <h2 id="detail-name" style="font-size:26px; margin:0 0 12px 0;">Meta</h2>
+            <div style="background:var(--md-sys-color-secondary-container); padding:24px; border-radius:32px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <h3 id="detail-progress-text" style="font-size:20px; margin:0;">$0 / $0</h3>
+                    <div id="detail-percentage" style="font-weight:700;">0%</div>
+                </div>
+                <div style="height:12px; background:rgba(0,0,0,0.1); border-radius:6px; overflow:hidden; margin-bottom:16px;">
+                    <div id="detail-progress-bar" style="height:100%; background:var(--md-sys-color-primary); width:0%;"></div>
+                </div>
+                <p id="detail-time-range" style="font-size:12px; opacity:0.6; margin:0;"></p>
+                <p id="detail-time" style="font-weight:700; margin:4px 0 0 0;"></p>
+                <p id="detail-advice" style="font-size:14px; opacity:0.7; margin-top:12px;"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menú FAB -->
+    <div id="fab-menu" class="fab-menu">
+        <div class="menu-item" onclick="openComisionModal()"><span class="menu-label">Comisión</span><button class="menu-btn" style="background:var(--md-sys-color-primary);"><img src="https://i.imgur.com/wDWocKd.png" style="width:28px;height:28px;object-fit:contain;"></button></div>
+        <div class="menu-item" onclick="openGoalModal()"><span class="menu-label">Nueva Meta</span><button class="menu-btn">🎯</button></div>
+        <div class="menu-item" onclick="openSavingModal()"><span class="menu-label">Ahorrar</span><button class="menu-btn">💰</button></div>
+        <div class="menu-item" onclick="openWithdrawModal()"><span class="menu-label" style="color:var(--md-sys-color-error);">Retirar</span><button class="menu-btn" style="background:var(--md-sys-color-error); color:white;">🚨</button></div>
+    </div>
+
+    <button id="main-fab" class="fab">+</button>
+
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active" data-view="dashboard"><div class="nav-icon">🏠</div><span class="nav-label">Tablero</span></a>
+        <a href="#" class="nav-item" data-view="history"><div class="nav-icon">📅</div><span class="nav-label">Calendario</span></a>
+    </nav>
+
+    <!-- Diálogos -->
+    <div id="goal-modal" class="modal-overlay">
+        <div class="modal">
+            <h3>Nueva Meta</h3>
+            <input type="text" id="goal-name" class="aesthetic-input" placeholder="Nombre">
+            <input type="number" id="goal-target" class="aesthetic-input" placeholder="Objetivo ($)">
+            <div style="display:flex; gap:12px;">
+                <div style="flex:1;"><label style="font-size:10px; opacity:0.6;">Inicio</label><input type="date" id="goal-start-date" class="aesthetic-input"></div>
+                <div style="flex:1;"><label style="font-size:10px; opacity:0.6;">Fin</label><input type="date" id="goal-end-date" class="aesthetic-input"></div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+                <label style="font-size:14px; font-weight:700;">Color:</label>
+                <input type="color" id="goal-color" value="#386a20" style="border:none; width:40px; height:40px; border-radius:20px; background:none; cursor:pointer;">
+            </div>
+            <div style="background:var(--md-sys-color-surface-variant); padding:40px; border-radius:24px; text-align:center; cursor:pointer;" onclick="document.getElementById('goal-image-file').click()">
+                <div id="upload-preview">📸 Subir Foto</div>
+                <input type="file" id="goal-image-file" hidden accept="image/*">
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+                <button onclick="closeModals()" style="font-weight:700; color:var(--md-sys-color-outline);">Cancelar</button>
+                <button id="save-goal-btn" class="btn-filled" style="width:auto;">Crear</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="saving-modal" class="modal-overlay"><div class="modal"><h3>Registrar Ahorro</h3><select id="select-goal" class="aesthetic-input"></select><input type="number" id="saving-amount" class="aesthetic-input" placeholder="Monto ($)"><div style="display:flex; justify-content:flex-end; gap:12px;"><button onclick="closeModals()" style="font-weight:700;">Cerrar</button><button id="confirm-saving-btn" class="btn-filled" style="width:auto;">Añadir</button></div></div></div>
+    <div id="withdraw-modal" class="modal-overlay"><div class="modal"><h3 style="color:var(--md-sys-color-error);">🚨 Retiro de Riesgo</h3><select id="withdraw-select-goal" class="aesthetic-input"></select><input type="number" id="withdraw-amount" class="aesthetic-input" placeholder="Monto ($)"><div style="display:flex; justify-content:flex-end; gap:12px;"><button onclick="closeModals()" style="font-weight:700;">Atrás</button><button id="confirm-withdraw-btn" class="btn-filled" style="background:var(--md-sys-color-error); width:auto;">Retirar</button></div></div></div>
+    
+    <div id="comision-modal" class="modal-overlay">
+        <div class="modal">
+            <h3 style="color:var(--md-sys-color-primary); display:flex; align-items:center; gap:8px;">
+                <img src="https://i.imgur.com/wDWocKd.png" style="width:24px;"> Comisión ChiliCode
+            </h3>
+            <p style="font-size:12px; opacity:0.7; margin-bottom:16px;">Atajo rápido: Selecciona la meta y el setup vendido.</p>
+            <select id="comision-select-goal" class="aesthetic-input"></select>
+            <div class="comision-options">
+                <button class="comision-btn" onclick="addComision('Piquín Setup', 585)">
+                    <h4>Piquín Setup</h4>
+                    <p>Sitio Landing de alto impacto</p>
+                    <b class="comision-price">$585 MXN</b>
+                </button>
+                <button class="comision-btn" onclick="addComision('Chipotle Setup', 1185)">
+                    <h4>Chipotle Setup</h4>
+                    <p>Sitio Web Corporativo multipágina</p>
+                    <b class="comision-price">$1,185 MXN</b>
+                </button>
+                <button class="comision-btn" onclick="addComision('Habanero Setup', 2235)">
+                    <h4>Habanero Setup</h4>
+                    <p>E-commerce robusto o App a medida</p>
+                    <b class="comision-price">$2,235 MXN</b>
+                </button>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+                <button onclick="closeModals()" style="font-weight:700;">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
